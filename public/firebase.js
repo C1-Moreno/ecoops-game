@@ -53,6 +53,8 @@ const googleLoginBtn = document.getElementById("googleLoginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const welcomeSpan = document.getElementById("welcome");
 
+let signUpMode = false;
+
 // ─────────────────────────────
 // 🧠 User State
 // ─────────────────────────────
@@ -75,6 +77,8 @@ onAuthStateChanged(auth, async (user) => {
     signUpBtn.style.display = "none";
     signInBtn.style.display = "none";
     googleLoginBtn.style.display = "none";
+    signUpMode = false;
+    signUpBtn.textContent = "Sign Up";
 
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
@@ -118,6 +122,8 @@ onAuthStateChanged(auth, async (user) => {
     signUpBtn.style.display = "inline-block";
     signInBtn.style.display = "inline-block";
     googleLoginBtn.style.display = "inline-block";
+    signUpMode = false;
+    signUpBtn.textContent = "Sign Up";
 
     window.firebaseGame = null;
   }
@@ -126,7 +132,14 @@ onAuthStateChanged(auth, async (user) => {
 // ─────────────────────────────
 // 🔐 Auth Actions
 // ─────────────────────────────
-window.signUp = async () => {
+window.startSignUp = async () => {
+  if (!signUpMode) {
+    signUpMode = true;
+    signInBtn.style.display = "none";
+    googleLoginBtn.style.display = "none";
+    signUpBtn.textContent = "Create Account";
+    return;
+  }
   try {
     const email = emailInput.value.trim();
     const pass = passwordInput.value.trim();

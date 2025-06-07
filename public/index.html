@@ -95,17 +95,19 @@
       /* ─── AUTH PANEL: pinned to top-right ─── */
       #authBox {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 0.5rem;
+        right: 0.5rem;
         background: rgba(255, 255, 255, 0.95);
-        padding: 0.5rem 0.8rem;
+        padding: 0.4rem 0.6rem;
         border: 1px solid #ccc;
         border-radius: 6px;
+        max-width: 220px;
       }
       #authBox input,
       #authBox button {
-        display: inline-block;
-        margin: 0.2rem 0.2rem 0.2rem 0;
+        display: block;
+        margin: 0.2rem 0;
+        width: 100%;
       }
       #authBox button {
         background: #2e7d32;
@@ -139,7 +141,7 @@
     <div id="authBox">
       <input type="email" id="email" placeholder="Email" />
       <input type="password" id="password" placeholder="Password" />
-      <button id="signUpBtn" onclick="signUp()">Sign Up</button>
+      <button id="signUpBtn" onclick="startSignUp()">Sign Up</button>
       <button id="signInBtn" onclick="signIn()">Log In</button>
       <button id="googleLoginBtn" onclick="googleLogin()">Sign in with Google</button>
       <button onclick="logout()" id="logoutBtn" style="display:none;">
