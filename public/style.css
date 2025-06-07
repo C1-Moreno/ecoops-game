@@ -196,28 +196,24 @@ footer {
   padding: 0.7rem 1rem 0.8rem 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
-  max-width: 240px;
+  max-width: 260px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   z-index: 9999;
 }
-
 #authBox input,
 #authBox button {
   display: block;
   margin: 0.2rem 0;
   width: 100%;
 }
-
 #authBox button {
   background: #2e7d32;
   color: #fff;
   border: none;
 }
-
 #authBox button:hover {
   background: #276729;
 }
-
 #authBox #welcome {
   display: inline-block;
   margin-left: 0.8rem;
@@ -225,7 +221,7 @@ footer {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Responsive: Layout changes for small screens
+   Responsive: Layout changes for small screens and moves authBox inline
    ───────────────────────────────────────────────────────────────────────────── */
 @media (min-width: 800px) {
   #sliderBox {
@@ -235,19 +231,22 @@ footer {
   }
 }
 
+@media (max-width: 950px) {
+  #authBox {
+    position: static !important;
+    margin: 1rem auto 0 auto;
+    left: 0; right: 0; top: 0;
+    box-shadow: none;
+    max-width: 95vw;
+    z-index: 20;
+  }
+  body {
+    padding-top: 0 !important;
+  }
+}
+
 @media (max-width: 799px) {
   #sliderBox {
     display: block;
-  }
-  #authBox {
-    position: static;
-    max-width: 100%;
-    margin: 1rem auto 0 auto;
-    left: 0;
-    right: 0;
-    box-shadow: none;
-  }
-  body {
-    padding-top: 0;
   }
 }
