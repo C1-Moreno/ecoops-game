@@ -1,0 +1,16 @@
+{
+  "name": "gpt-scenario-server",
+  "version": "1.0.0",
+  "description": "Express server that generates greenhouse scenarios using OpenAI",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.21.2",
+    "openai": "^4.104.0"
+  }
+}

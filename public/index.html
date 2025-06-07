@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>EcoOps: Greenhouse Protocol</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* ─── Basic Styling ─── */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 1rem;
+        line-height: 1.4;
+        position: relative; /* so #authBox can be absolute */
+      }
+      h1 {
+        margin-bottom: 0.5rem;
+      }
+      .section-container {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background: #fafafa;
+      }
+      .symptoms-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.5rem;
+      }
+      .symptoms-table th,
+      .symptoms-table td {
+        border: 1px solid #999;
+        padding: 0.4rem 0.6rem;
+      }
+      .trigger-cell {
+        text-align: center;
+        font-style: italic;
+        color: #555;
+      }
+      label {
+        cursor: pointer;
+      }
+      input[type="range"] {
+        width: 100%;
+        margin: 0.2rem 0;
+      }
+      .slider-label {
+        margin-top: 0.6rem;
+        font-weight: bold;
+      }
+      .slider-value {
+        margin-left: 0.4rem;
+        font-weight: normal;
+      }
+      button {
+        margin-right: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid #666;
+        background: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #eee;
+      }
+      .footer-buttons {
+        margin-top: 1rem;
+      }
+      .footer-buttons button {
+        background: #2e7d32;
+        color: #fff;
+        border: none;
+      }
+      .footer-buttons button:hover {
+        background: #276729;
+      }
+      textarea {
+        width: 100%;
+        height: 6rem;
+        resize: vertical;
+        padding: 0.5rem;
+        border: 1px solid #999;
+        border-radius: 4px;
+        font-family: Arial, sans-serif;
+        margin-top: 0.6rem;
+      }
+      .error {
+        color: red;
+      }
+
+      /* ─── AUTH PANEL: pinned to top-right ─── */
+      #authBox {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0.5rem 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+      #authBox input,
+      #authBox button {
+        display: inline-block;
+        margin: 0.2rem 0.2rem 0.2rem 0;
+      }
+      #authBox #welcome {
+        display: inline-block;
+        margin-left: 0.8rem;
+        font-weight: bold;
+      }
+
+      /* ─── Flex container for Environment & Sliders ─── */
+      .env-slider-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .env-slider-container > .section-container {
+        flex: 1 1 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🌱 EcoOps: Greenhouse Protocol</h1>
+
+    <!-- ─── Authentication Panel (Top-Right) ─── -->
+    <div id="authBox">
+      <input type="email" id="email" placeholder="Email" />
+      <input type="password" id="password" placeholder="Password" />
+      <button id="signUpBtn" onclick="signUp()">Sign Up</button>
+      <button id="signInBtn" onclick="signIn()">Log In</button>
+      <button id="googleLoginBtn" onclick="googleLogin()">Sign in with Google</button>
+      <button onclick="logout()" id="logoutBtn" style="display:none;">
+        Log Out
+      </button>
+      <span id="welcome" style="display:none;"></span>
+    </div>
+
+<!-- ─── Scenario Type & Difficulty (swapped order; larger font) ─── -->
+<div id="controlsBar" style="margin: 1rem 0; font-size: 1.4rem;">
+  <label for="scenarioType" style="margin-right: 0.5rem;">
+    <strong>Scenario Type:</strong>
+  </label>
+  <select id="scenarioType" style="margin-right: 1.5rem; padding: 0.25rem;">
+    <option value="generated">🧰 Built-in Scenario</option>
+    <option value="ai">🤖 AI-Generated Scenario</option>
+  </select>
+
+  <label for="levelSelect" style="margin-right: 0.5rem;">
+    <strong>Select Difficulty:</strong>
+  </label>
+  <select id="levelSelect" style="padding: 0.25rem;">
+    <option value="1">🌱 Seedling Scout</option>
+    <option value="2">🌿 Vegetative Voyager</option>
+    <option value="3">🍃 Budding Specialist</option>
+    <option value="4">🌸 Fruit & Flower Strategist</option>
+    <option value="5">🍓 Yield Champion</option>
+    <option value="6">🧠 Greenhouse Grandmaster</option>
+  </select>
+</div>
+
+    <!-- ─── Level Header ─── -->
+    <h2 id="levelTitle">🧠 Level 1: Seedling Scout</h2>
+
+    <!-- ─── Observed Symptoms (directly under Level) ─── -->
+    <div id="symptomsBox" class="section-container">
+      <h3>🧪 Observed Symptoms</h3>
+      <!-- Populated by script.js -->
+    </div>
+
+    <!-- ─── Crop Header (below Symptoms) ─── -->
+    <h2 id="cropTitle">🌿 Crop: Lettuce</h2>
+
+    <!-- ─── Flex: Simulated Environment & Adjust Environment ─── -->
+    <div class="env-slider-container">
+      <!-- Simulated Environment -->
+      <div id="environmentBox" class="section-container">
+        <h3>🌡️ Simulated Environment</h3>
+        <!-- Populated by script.js -->
+      </div>
+
+      <!-- Adjust Environment Sliders -->
+      <div id="sliderBox" class="section-container">
+        <h3>🎛️ Adjust Environment:</h3>
+
+        <!-- Temperature -->
+        <div class="slider-label">
+          🌡️ Temperature:
+          <span id="tempVal" class="slider-value">25°C (77°F)</span>
+        </div>
+        <input type="range" id="temp" min="10" max="40" value="25" />
+
+        <!-- Humidity -->
+        <div class="slider-label">
+          💧 Humidity:
+          <span id="humidityVal" class="slider-value">60%</span>
+        </div>
+        <input type="range" id="humidity" min="20" max="100" value="60" />
+
+        <!-- Photoperiod -->
+        <div class="slider-label">
+          ☀️ Photoperiod:
+          <span id="lightVal" class="slider-value">12 hrs</span>
+        </div>
+        <input type="range" id="light" min="6" max="20" value="12" />
+
+        <!-- CO₂ -->
+        <div class="slider-label">
+          🧪 CO₂:
+          <span id="co2Val" class="slider-value">400 ppm</span>
+        </div>
+        <input type="range" id="co2" min="300" max="1150" value="400" />
+
+        <!-- DLI -->
+        <div class="slider-label">
+          🔆 DLI (mol/m²/day):
+          <span id="dliVal" class="slider-value">20</span>
+        </div>
+        <input type="range" id="dli" min="0" max="45" value="20" />
+
+        <!-- EC -->
+        <div class="slider-label">
+          💧 EC (mS/cm):
+          <span id="ecVal" class="slider-value">1.0</span>
+        </div>
+        <input
+          type="range"
+          id="ec"
+          min="0.0"
+          max="3.0"
+          step="0.1"
+          value="1.0"
+        />
+
+        <!-- pH -->
+        <div class="slider-label">
+          🌿 pH:
+          <span id="phVal" class="slider-value">6.0</span>
+        </div>
+        <input
+          type="range"
+          id="ph"
+          min="4.0"
+          max="8.0"
+          step="0.1"
+          value="6.0"
+        />
+      </div>
+    </div>
+
+    <!-- ─── Quiz Area ─── -->
+    <div id="quizBox" class="section-container">
+      <!-- Injected by script.js -->
+    </div>
+
+    <!-- ─── AI Recommendation (only visible in AI mode) ─── -->
+    <div id="aiContainer" class="section-container" style="display:none;">
+      <textarea
+        id="aiRecommendation"
+        placeholder="✍️ For AI-Generated Scenarios, write your diagnosis & solutions here..."
+        aria-label="Your recommendation for AI scenario"
+      ></textarea>
+    </div>
+
+    <!-- ─── Result & History Panels (initially hidden) ─── -->
+    <section
+      id="resultBox"
+      class="section-container"
+      aria-live="polite"
+      style="display:none;"
+    ></section>
+
+    <section
+      id="historyBox"
+      class="section-container"
+      style="display:none;"
+    ></section>
+
+    <!-- ─── Action Buttons ─── -->
+    <div class="footer-buttons">
+      <button onclick="checkOutcome();">Submit Scenario</button>
+      <button onclick="renderScenario();">Next Scenario</button>
+      <button onclick="loadHistory();">Show History</button>
+    </div>
+
+    <!-- ─── Firebase SDK & Main Logic ─── -->
+    <script type="module" src="firebase.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
