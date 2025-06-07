@@ -117,22 +117,6 @@
       #authBox button:hover {
         background: #276729;
       }
-      #authBox button {
-        background: #2e7d32;
-        color: #fff;
-        border: none;
-      }
-      #authBox button:hover {
-        background: #276729;
-      }
-      #authBox button {
-        background: #2e7d32;
-        color: #fff;
-        border: none;
-      }
-      #authBox button:hover {
-        background: #276729;
-      }
       #authBox #welcome {
         display: inline-block;
         margin-left: 0.8rem;
@@ -165,46 +149,37 @@
       </button>
       <span id="welcome" style="display:none;"></span>
     </div>
-    <!-- Insert the new crop select bar here -->
-    <div id="cropSelectBar" style="margin: 1rem 0; font-size: 1.1rem;">
-      <label for="cropSelect" style="margin-right:0.5rem;"><strong>Select Crop(s):</strong></label>
-      <select id="cropSelect" multiple size="1" style="min-width:160px; padding:0.25rem;">
-        <!-- Options will be populated by script.js -->
+
+    <!-- ─── Scenario Type, Difficulty, and Crop Selection ─── -->
+    <div id="controlsBar" style="margin: 1rem 0; font-size: 1.4rem;">
+      <label for="scenarioType" style="margin-right: 0.5rem;">
+        <strong>Scenario Type:</strong>
+      </label>
+      <select id="scenarioType" style="margin-right: 1.5rem; padding: 0.25rem;">
+        <option value="generated">🧰 Built-in Scenario</option>
+        <option value="ai">🤖 AI-Generated Scenario</option>
       </select>
-      <span style="font-size: 0.9em; color: #666;">(Hold Ctrl/Cmd to select multiple)</span>
+
+      <label for="levelSelect" style="margin-right: 0.5rem;">
+        <strong>Select Difficulty:</strong>
+      </label>
+      <select id="levelSelect" style="margin-right: 1.5rem; padding: 0.25rem;">
+        <option value="1">🌱 Seedling Scout</option>
+        <option value="2">🌿 Vegetative Voyager</option>
+        <option value="3">🍃 Budding Specialist</option>
+        <option value="4">🌸 Fruit & Flower Strategist</option>
+        <option value="5">🍓 Yield Champion</option>
+        <option value="6">🧠 Greenhouse Grandmaster</option>
+      </select>
+
+      <label for="cropSelect" style="margin-right: 0.5rem;">
+        <strong>Select Crop(s):</strong>
+      </label>
+      <select id="cropSelect" multiple style="min-width: 140px; padding: 0.25rem; vertical-align: middle;">
+        <!-- Options are dynamically populated by JS -->
+      </select>
+      <span style="font-size: 0.85rem; margin-left: 0.5rem; color:#555;">(Hold Ctrl/Cmd to select multiple)</span>
     </div>
-
- 
-
-<!-- ─── Scenario Type & Difficulty (swapped order; larger font) ─── -->
-<div id="cropSelectBar" style="margin: 1rem 0; font-size: 1.1rem;">
-  <label for="cropSelect" style="margin-right:0.5rem;"><strong>Select Crop(s):</strong></label>
-  <select id="cropSelect" multiple size="1" style="min-width:160px; padding:0.25rem;">
-    <!-- Options will be populated by script.js -->
-  </select>
-  <span style="font-size: 0.9em; color: #666;">(Hold Ctrl/Cmd to select multiple)</span>
-</div>
-<div id="controlsBar" style="margin: 1rem 0; font-size: 1.4rem;">
-  <label for="scenarioType" style="margin-right: 0.5rem;">
-    <strong>Scenario Type:</strong>
-  </label>
-  <select id="scenarioType" style="margin-right: 1.5rem; padding: 0.25rem;">
-    <option value="generated">🧰 Built-in Scenario</option>
-    <option value="ai">🤖 AI-Generated Scenario</option>
-  </select>
-
-  <label for="levelSelect" style="margin-right: 0.5rem;">
-    <strong>Select Difficulty:</strong>
-  </label>
-  <select id="levelSelect" style="padding: 0.25rem;">
-    <option value="1">🌱 Seedling Scout</option>
-    <option value="2">🌿 Vegetative Voyager</option>
-    <option value="3">🍃 Budding Specialist</option>
-    <option value="4">🌸 Fruit & Flower Strategist</option>
-    <option value="5">🍓 Yield Champion</option>
-    <option value="6">🧠 Greenhouse Grandmaster</option>
-  </select>
-</div>
 
     <!-- ─── Level Header ─── -->
     <h2 id="levelTitle">🧠 Level 1: Seedling Scout</h2>
