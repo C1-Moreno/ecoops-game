@@ -18,7 +18,7 @@
   h1 {
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
-    text-align: center;
+    text-align: left;
   }
   h2 {
     font-size: 1.4rem;
@@ -200,4 +200,3 @@
       display: block;
     }
   }
-  
