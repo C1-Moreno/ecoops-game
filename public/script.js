@@ -274,7 +274,289 @@ function generateScenario(level, userCropSelection) {
     difficulty: level
   };
 }
+// ─────────────────────────────────────────────────────────────────────────────
+// 🐞 IPM Scenarios Data (1–30)
+// ─────────────────────────────────────────────────────────────────────────────
+const ipmScenarios = [
+  { id: '1',  crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Fine webbing on leaf undersides',
+      'Tiny yellow or white specks on leaves',
+      'Leaves becoming bronzed or scorched'
+    ], pest: 'spider mites' },
+  { id: '2',  crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Small black insects hovering around plants',
+      'Larvae in root zone causing poor root development',
+      'Seedlings wilting despite sufficient watering'
+    ], pest: 'fungus gnats' },
+  { id: '3',  crop: 'Tomatoes',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Leaves curled and distorted',
+      'Sticky honeydew residue on foliage and fruit',
+      'Presence of black sooty mold on leaf surfaces'
+    ], pest: 'aphids' },
+  { id: '4',  crop: 'Strawberries',         environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Silver streaking or discoloration on leaf surfaces',
+      'Deformed fruit with scarring or russet marks',
+      'Tiny elongated insects moving rapidly on leaves'
+    ], pest: 'thrips' },
+  { id: '5',  crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Small white insects flying when disturbed',
+      'Honeydew droplets and subsequent sooty mold',
+      'Leaf yellowing and premature leaf drop'
+    ], pest: 'whiteflies' },
+  { id: '6',  crop: 'Tomatoes',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Distinct winding, white trails inside leaves',
+      'Leaves become brittle, dried, and drop prematurely',
+      'Small fly-like adults occasionally visible'
+    ], pest: 'leafminers' },
+  { id: '7',  crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Large holes and extensive leaf damage',
+      'Presence of frass (insect droppings) on leaves',
+      'Visible green caterpillars feeding actively'
+    ], pest: 'caterpillars' },
+  { id: '8',  crop: 'Strawberries',         environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'White, cotton-like masses on leaf axils and stems',
+      'Leaves turning yellow and becoming distorted',
+      'Ant activity around infested areas'
+    ], pest: 'mealybugs' },
+  { id: '9',  crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Small, immobile, dome-shaped insects stuck to stems and leaves',
+      'Honeydew secretions causing sticky foliage',
+      'Leaf discoloration and weakening of plant vigor'
+    ], pest: 'scale insects' },
+  { id: '10', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Poor root development despite ideal nutrient conditions',
+      'Presence of tiny white insects on roots visible during transplanting',
+      'Plants exhibit unexplained wilting and yellowing'
+    ], pest: 'root aphids' },
+  { id: '11', crop: 'Tomato',               environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Small white flying insects when leaves disturbed',
+      'Leaves turning yellow, sticky honeydew residue',
+      'Sooty mold fungus on upper leaf surfaces'
+    ], pest: 'whiteflies' },
+  { id: '12', crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Leaves cupping downward, brittle appearance',
+      'Distorted new growth, stunted shoots',
+      'Brownish scarring along leaf margins'
+    ], pest: 'broad mites' },
+  { id: '13', crop: 'Strawberries',         environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Chewed leaf edges and large irregular holes',
+      'Dark-colored caterpillars hiding in canopy',
+      'Significant plant defoliation overnight'
+    ], pest: 'armyworms' },
+  { id: '14', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Increased ant activity around plants',
+      'Sticky honeydew on lower leaves',
+      'Leaf distortion, small insects clustered under leaves'
+    ], pest: 'aphids' },
+  { id: '15', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Small dark flies landing frequently on leaves',
+      'Black fecal specks on leaf surfaces',
+      'Presence in overly moist or algae-rich conditions'
+    ], pest: 'shore flies' },
+  { id: '16', crop: 'Tomato',               environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Poor plant vigor despite adequate nutrients',
+      'Root hairs and fine roots severely damaged',
+      'Small, white, centipede-like insects observed in roots/soil'
+    ], pest: 'symphylans' },
+  { id: '17', crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Yellowish or bronzed foliage beginning at lower canopy',
+      'Extremely small mites difficult to see without magnification',
+      'Gradual upward progression of leaf damage'
+    ], pest: 'russet mites' },
+  { id: '18', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Circular holes chewed into leaves',
+      'Pale green caterpillars looping motion observed feeding',
+      'Greenish frass present on leaves'
+    ], pest: 'cabbage loopers' },
+  { id: '19', crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Silver or white streaking patterns on leaves',
+      'Black fecal spots on foliage underside',
+      'Brittle, distorted new leaf growth'
+    ], pest: 'thrips' },
+  { id: '20', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Plants exhibiting mild root damage or reduced vigor',
+      'Tiny, jumping insects abundant on wet soil surface',
+      'Presence mostly following prolonged high moisture conditions'
+    ], pest: 'springtails' },
+  { id: '21', crop: 'Tomato',               environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Small white stippling on leaves, giving speckled appearance',
+      'Leaves becoming yellowish or bronze, curling downward',
+      'Small jumping insects visible upon disturbance'
+    ], pest: 'leafhoppers' },
+  { id: '22', crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Seedlings or young plants cut at soil line overnight',
+      'Large caterpillars curled beneath soil surface or mulch',
+      'Damage primarily nocturnal and rapidly destructive'
+    ], pest: 'cutworms' },
+  { id: '23', crop: 'Cucumbers',            environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Tiny, round, translucent eggs on leaf undersides',
+      'Fine silken webbing around egg clusters',
+      'Later, stippling and bronzing of older leaves'
+    ], pest: 'spider mite eggs' },
+  { id: '24', crop: 'Strawberries',         environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'New leaves cupped downward and shiny',
+      'Growth stunted, distorted runners',
+      'Brown speckling along leaf veins'
+    ], pest: 'broad mites' },
+  { id: '25', crop: 'Herbs',                environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Tiny, mosquito-like flies around soil surface',
+      'Larvae feeding on root hairs cause wilting seedlings',
+      'Algae growth encouraged by excess moisture'
+    ], pest: 'fungus gnats' },
+  { id: '26', crop: 'Roses',                environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Clusters of soft-bodied insects on new shoots',
+      'Leaves curled, sticky honeydew present',
+      'Secondary sooty mold growth'
+    ], pest: 'aphids' },
+  { id: '27', crop: 'Ornamental Peppers',   environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Cotton-like wax masses on stems and leaf joints',
+      'Yellowing leaves, poor fruit set',
+      'Ants farming them for honeydew'
+    ], pest: 'mealybugs' },
+  { id: '28', crop: 'Carrots',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Knobby, forked roots on harvest',
+      'Stunted top growth despite normal foliage',
+      'Patches of poor stands in bed'
+    ], pest: 'root-knot nematodes' },
+  { id: '29', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Ragged, irregular holes at night',
+      'Small droppings around plant base',
+      'Increased activity under shelter'
+    ], pest: 'field crickets' },
+  { id: '30', crop: 'Chrysanthemums',       environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
+    symptoms: [
+      'Silver-white streaks on petals and leaves',
+      'Distorted flower buds',
+      'Tiny dark fecal spots on petals'
+    ], pest: 'thrips' }
+];
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 🔀 IPM Shuffle + Progress in localStorage
+// ─────────────────────────────────────────────────────────────────────────────
+const IPM_ORDER_KEY = 'ipmOrder';
+const IPM_IDX_KEY   = 'ipmIndex';
+
+function getNextIPMScenario() {
+  let order = JSON.parse(localStorage.getItem(IPM_ORDER_KEY) || 'null');
+  let idx   = parseInt(localStorage.getItem(IPM_IDX_KEY) || '0', 10);
+
+  if (!order || !order.length) {
+    order = ipmScenarios.map(s => s.id);
+    shuffle(order);
+    idx = 0;
+  }
+  if (idx >= order.length) {
+    shuffle(order);
+    idx = 0;
+  }
+
+  const nextId = order[idx];
+  localStorage.setItem(IPM_ORDER_KEY, JSON.stringify(order));
+  localStorage.setItem(IPM_IDX_KEY, String(idx + 1));
+
+  return ipmScenarios.find(s => s.id === String(nextId));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 🔄 Extend renderScenario() to handle "ipm"
+// ─────────────────────────────────────────────────────────────────────────────
+async function renderScenario() {
+  document.getElementById("resultBox").style.display = "none";
+  document.getElementById("historyBox").style.display = "none";
+  const scenarioType = document.getElementById("scenarioType").value;
+
+  // Always reset slider visibility first
+  ['light','co2','dli','ec','ph'].forEach(id => {
+    document.querySelector(`label[for="${id}"]`).style.display = 'none';
+    document.getElementById(id).style.display = 'none';
+  });
+  // Always show temp & humidity sliders
+  ['temp','humidity'].forEach(id => {
+    document.querySelector(`label[for="${id}"]`).style.display = '';
+    document.getElementById(id).style.display = '';
+  });
+  updateLabels();
+
+  if (scenarioType === 'ipm') {
+    // Hide difficulty dropdown
+    document.getElementById('difficultyGroup').style.display = 'none';
+
+    // Pick next IPM scenario
+    const ipm = getNextIPMScenario();
+
+    // Update headings
+    document.getElementById("levelTitle").textContent = `🐞 IPM Scenario`;
+    document.getElementById("cropTitle").textContent  = `🌿 Crop: ${ipm.crop}`;
+
+    // Show environment: temp, humidity, airflow
+    document.getElementById("environmentBox").innerHTML = `
+      <h3>🌡️ Simulated Environment</h3>
+      <div class="env-grid">
+        <div><strong>Temperature:</strong> ${ipm.environment.temp}°C (${toF(ipm.environment.temp)}°F)</div>
+        <div><strong>Humidity:</strong> ${ipm.environment.humidity}%</div>
+        <div class="full-row"><strong>Airflow:</strong> ${ipm.environment.airflow}</div>
+      </div>`;
+
+    // Populate symptoms table
+    const rows = ipm.symptoms
+      .map(s => `<tr><td>${escapeHtml(s)}</td><td class="trigger-cell">?</td></tr>`)
+      .join('');
+    document.getElementById("symptomsBox").innerHTML = `
+      <h3>🧪 Observed Symptoms</h3>
+      <table class="symptoms-table">
+        <tr><th>Symptom</th><th>Likely Pest</th></tr>
+        ${rows}
+      </table>`;
+
+    // Quiz: pest identification + tactic
+    document.getElementById("quizBox").innerHTML = `
+      <h3>❓ Which pest is causing these symptoms?</h3>
+      <input type="text" id="pestAnswer" placeholder="Type the pest name">
+
+      <h3>❓ Which IPM tactic would you implement next?</h3>
+      <select id="tacticSelect">
+        <option value="">Select a tactic</option>
+        <option value="Release predatory mites">Release predatory mites</option>
+        <option value="Apply selective pesticide">Apply selective pesticide</option>
+        <option value="Adjust humidity levels">Adjust humidity levels</option>
+        <option value="Increase scouting frequency">Increase scouting frequency</option>
+      </select>`;
+
+    return;
+  }
+
+  // …existing 'generated' and 'ai' branches remain unchanged…
+}
 // ─────────────────────────────────────────────────────────────────────────────
 // 🎮 renderScenario(): Populate UI for Built-In or AI mode
 // ─────────────────────────────────────────────────────────────────────────────
