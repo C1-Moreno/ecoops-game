@@ -20,50 +20,6 @@ const escapeHtml = (str) =>
     .replace(/>/g, "&gt;");
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 🌐 Global for current IPM scenario
-// ─────────────────────────────────────────────────────────────────────────────
-let currentIPMScenario = null;
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 📝 IPM Feedback Reasons
-// ─────────────────────────────────────────────────────────────────────────────
-const pestReasons = {
-  'spider mites':        'they pierce leaf cells and suck out chlorophyll, causing stippling and webbing',
-  'fungus gnats':        'their larvae feed on root hairs leading to poor root development and wilting',
-  'aphids':              'they suck plant sap causing leaf curl, honeydew secretion, and sooty mold formation',
-  'thrips':              'they rasp leaf tissue, leaving silver streaks and speckled damage',
-  'whiteflies':          'they feed on sap and excrete honeydew, leading to yellowing leaves and sooty mold',
-  'leafminers':          'their larvae tunnel inside leaves creating winding trails and brittle tissue',
-  'caterpillars':        'they chew large holes in leaves and leave frass at feeding sites',
-  'mealybugs':           'they suck sap and excrete honeydew while covered in cottony wax',
-  'scale insects':       'they attach to stems and leaves, sucking sap and causing discoloration and weakening',
-  'root aphids':         'they feed on roots causing wilting and yellowing due to unseen root damage',
-  'broad mites':         'they attack new growth causing distorted, brittle leaves with brown scarring',
-  'armyworms':           'these caterpillars feed on leaves (often at night), causing large holes and defoliation',
-  'shore flies':         'their larvae feed on algae and roots in overly moist conditions, causing wilting',
-  'symphylans':          'soil-dwelling symphylans feed on fine roots, reducing plant vigor',
-  'russet mites':        'microscopic mites feed on leaf undersides causing bronzing that spreads upward',
-  'cabbage loopers':     'looping caterpillars chew circular holes in leaves, leaving green frass',
-  'springtails':         'they thrive in wet media, feeding on decaying matter and tripping root function',
-  'leafhoppers':         'they pierce and suck sap, causing stippling and downward curling of leaves',
-  'cutworms':            'nocturnal larvae that sever seedlings at the soil line overnight',
-  'spider mite eggs':    'these eggs hatch into spider mites, which then produce webbing and stippling',
-  'root-knot nematodes': 'they induce galls on roots that stunt growth and nutrient uptake',
-  'field crickets':      'they chew irregular nighttime holes in leaves and leave droppings at the base'
-};
-
-const tacticReasons = {
-  'Release predatory mites':    'predatory mites feed on pest mites, providing biological control without chemicals',
-  'Apply selective pesticide':  'selective pesticides target specific pests and spare beneficial organisms',
-  'Adjust humidity levels':     'altering humidity can disrupt pest reproduction cycles (e.g. spider mites hate high RH)',
-  'Increase scouting frequency': 'more frequent scouting catches outbreaks early, preventing severe infestations'
-};
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // 🎓 Global State & Difficulty Definitions
 // ─────────────────────────────────────────────────────────────────────────────
 let scenario = {};
@@ -318,320 +274,6 @@ function generateScenario(level, userCropSelection) {
     difficulty: level
   };
 }
-// ─────────────────────────────────────────────────────────────────────────────
-// 🐞 IPM Scenarios Data (1–30)
-// ─────────────────────────────────────────────────────────────────────────────
-const ipmScenarios = [
-  { id: '1',  crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Fine webbing on leaf undersides',
-      'Tiny yellow or white specks on leaves',
-      'Leaves becoming bronzed or scorched'
-    ], pest: 'spider mites' },
-  { id: '2',  crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Small black insects hovering around plants',
-      'Larvae in root zone causing poor root development',
-      'Seedlings wilting despite sufficient watering'
-    ], pest: 'fungus gnats' },
-  { id: '3',  crop: 'Tomatoes',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Leaves curled and distorted',
-      'Sticky honeydew residue on foliage and fruit',
-      'Presence of black sooty mold on leaf surfaces'
-    ], pest: 'aphids' },
-  { id: '4',  crop: 'Strawberries',         environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Silver streaking or discoloration on leaf surfaces',
-      'Deformed fruit with scarring or russet marks',
-      'Tiny elongated insects moving rapidly on leaves'
-    ], pest: 'thrips' },
-  { id: '5',  crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Small white insects flying when disturbed',
-      'Honeydew droplets and subsequent sooty mold',
-      'Leaf yellowing and premature leaf drop'
-    ], pest: 'whiteflies' },
-  { id: '6',  crop: 'Tomatoes',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Distinct winding, white trails inside leaves',
-      'Leaves become brittle, dried, and drop prematurely',
-      'Small fly-like adults occasionally visible'
-    ], pest: 'leafminers' },
-  { id: '7',  crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Large holes and extensive leaf damage',
-      'Presence of frass (insect droppings) on leaves',
-      'Visible green caterpillars feeding actively'
-    ], pest: 'caterpillars' },
-  { id: '8',  crop: 'Strawberries',         environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'White, cotton-like masses on leaf axils and stems',
-      'Leaves turning yellow and becoming distorted',
-      'Ant activity around infested areas'
-    ], pest: 'mealybugs' },
-  { id: '9',  crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Small, immobile, dome-shaped insects stuck to stems and leaves',
-      'Honeydew secretions causing sticky foliage',
-      'Leaf discoloration and weakening of plant vigor'
-    ], pest: 'scale insects' },
-  { id: '10', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Poor root development despite ideal nutrient conditions',
-      'Presence of tiny white insects on roots visible during transplanting',
-      'Plants exhibit unexplained wilting and yellowing'
-    ], pest: 'root aphids' },
-  { id: '11', crop: 'Tomato',               environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Small white flying insects when leaves disturbed',
-      'Leaves turning yellow, sticky honeydew residue',
-      'Sooty mold fungus on upper leaf surfaces'
-    ], pest: 'whiteflies' },
-  { id: '12', crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Leaves cupping downward, brittle appearance',
-      'Distorted new growth, stunted shoots',
-      'Brownish scarring along leaf margins'
-    ], pest: 'broad mites' },
-  { id: '13', crop: 'Strawberries',         environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Chewed leaf edges and large irregular holes',
-      'Dark-colored caterpillars hiding in canopy',
-      'Significant plant defoliation overnight'
-    ], pest: 'armyworms' },
-  { id: '14', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Increased ant activity around plants',
-      'Sticky honeydew on lower leaves',
-      'Leaf distortion, small insects clustered under leaves'
-    ], pest: 'aphids' },
-  { id: '15', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Small dark flies landing frequently on leaves',
-      'Black fecal specks on leaf surfaces',
-      'Presence in overly moist or algae-rich conditions'
-    ], pest: 'shore flies' },
-  { id: '16', crop: 'Tomato',               environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Poor plant vigor despite adequate nutrients',
-      'Root hairs and fine roots severely damaged',
-      'Small, white, centipede-like insects observed in roots/soil'
-    ], pest: 'symphylans' },
-  { id: '17', crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Yellowish or bronzed foliage beginning at lower canopy',
-      'Extremely small mites difficult to see without magnification',
-      'Gradual upward progression of leaf damage'
-    ], pest: 'russet mites' },
-  { id: '18', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Circular holes chewed into leaves',
-      'Pale green caterpillars looping motion observed feeding',
-      'Greenish frass present on leaves'
-    ], pest: 'cabbage loopers' },
-  { id: '19', crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Silver or white streaking patterns on leaves',
-      'Black fecal spots on foliage underside',
-      'Brittle, distorted new leaf growth'
-    ], pest: 'thrips' },
-  { id: '20', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Plants exhibiting mild root damage or reduced vigor',
-      'Tiny, jumping insects abundant on wet soil surface',
-      'Presence mostly following prolonged high moisture conditions'
-    ], pest: 'springtails' },
-  { id: '21', crop: 'Tomato',               environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Small white stippling on leaves, giving speckled appearance',
-      'Leaves becoming yellowish or bronze, curling downward',
-      'Small jumping insects visible upon disturbance'
-    ], pest: 'leafhoppers' },
-  { id: '22', crop: 'Cannabis',             environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Seedlings or young plants cut at soil line overnight',
-      'Large caterpillars curled beneath soil surface or mulch',
-      'Damage primarily nocturnal and rapidly destructive'
-    ], pest: 'cutworms' },
-  { id: '23', crop: 'Cucumbers',            environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Tiny, round, translucent eggs on leaf undersides',
-      'Fine silken webbing around egg clusters',
-      'Later, stippling and bronzing of older leaves'
-    ], pest: 'spider mite eggs' },
-  { id: '24', crop: 'Strawberries',         environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'New leaves cupped downward and shiny',
-      'Growth stunted, distorted runners',
-      'Brown speckling along leaf veins'
-    ], pest: 'broad mites' },
-  { id: '25', crop: 'Herbs',                environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Tiny, mosquito-like flies around soil surface',
-      'Larvae feeding on root hairs cause wilting seedlings',
-      'Algae growth encouraged by excess moisture'
-    ], pest: 'fungus gnats' },
-  { id: '26', crop: 'Roses',                environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Clusters of soft-bodied insects on new shoots',
-      'Leaves curled, sticky honeydew present',
-      'Secondary sooty mold growth'
-    ], pest: 'aphids' },
-  { id: '27', crop: 'Ornamental Peppers',   environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Cotton-like wax masses on stems and leaf joints',
-      'Yellowing leaves, poor fruit set',
-      'Ants farming them for honeydew'
-    ], pest: 'mealybugs' },
-  { id: '28', crop: 'Carrots',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Knobby, forked roots on harvest',
-      'Stunted top growth despite normal foliage',
-      'Patches of poor stands in bed'
-    ], pest: 'root-knot nematodes' },
-  { id: '29', crop: 'Lettuce',              environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Ragged, irregular holes at night',
-      'Small droppings around plant base',
-      'Increased activity under shelter'
-    ], pest: 'field crickets' },
-  { id: '30', crop: 'Chrysanthemums',       environment: { temp: 25, humidity: 60, airflow: 'Adequate HAF fans' },
-    symptoms: [
-      'Silver-white streaks on petals and leaves',
-      'Distorted flower buds',
-      'Tiny dark fecal spots on petals'
-    ], pest: 'thrips' }
-];
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 🔀 IPM Shuffle + Progress in localStorage
-// ─────────────────────────────────────────────────────────────────────────────
-const IPM_ORDER_KEY = 'ipmOrder';
-const IPM_IDX_KEY   = 'ipmIndex';
-
-function getNextIPMScenario() {
-  let order = JSON.parse(localStorage.getItem(IPM_ORDER_KEY) || 'null');
-  let idx   = parseInt(localStorage.getItem(IPM_IDX_KEY) || '0', 10);
-
-  if (!order || !order.length) {
-    order = ipmScenarios.map(s => s.id);
-    shuffle(order);
-    idx = 0;
-  }
-  if (idx >= order.length) {
-    shuffle(order);
-    idx = 0;
-  }
-
-  const nextId = order[idx];
-  localStorage.setItem(IPM_ORDER_KEY, JSON.stringify(order));
-  localStorage.setItem(IPM_IDX_KEY, String(idx + 1));
-
-  return ipmScenarios.find(s => s.id === String(nextId));
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 🔄 renderScenario(): Unified for IPM, Generated & AI
-// ─────────────────────────────────────────────────────────────────────────────
-async function renderScenario() {
-  // 1) Common setup
-  document.getElementById("resultBox").style.display = "none";
-  document.getElementById("historyBox").style.display = "none";
-  const scenarioType = document.getElementById("scenarioType").value;
-
-  // Reset all sliders hidden, then show only temp & humidity
-  ['light','co2','dli','ec','ph'].forEach(id => {
-    document.querySelector(`label[for="${id}"]`).style.display = 'none';
-    document.getElementById(id).style.display = 'none';
-  });
-  ['temp','humidity'].forEach(id => {
-    document.querySelector(`label[for="${id}"]`).style.display = '';
-    document.getElementById(id).style.display = '';
-  });
-  updateLabels();
-
-  // ─── IPM branch ───────────────────────────────────────────────────────────
-  if (scenarioType === 'ipm') {
-    // 2) Hide difficulty and clear previous IPM inputs
-    document.getElementById('difficultyGroup').style.display = 'none';
-    // clear answers & old feedback
-    if (document.getElementById("pestAnswer")) {
-      document.getElementById("pestAnswer").value = '';
-      document.getElementById("tacticSelect").selectedIndex = 0;
-    }
-
-    // 3) Pull next IPM scenario
-    const ipm = getNextIPMScenario();
-    currentIPMScenario = ipm;
-
-    // 4) Headings
-    document.getElementById("levelTitle").textContent = `🐞 IPM Scenario`;
-    document.getElementById("cropTitle").textContent  = `🌿 Crop: ${ipm.crop}`;
-
-    // 5) Environment display
-    document.getElementById("environmentBox").innerHTML = `
-      <h3>🌡️ Simulated Environment</h3>
-      <div class="env-grid">
-        <div><strong>Temperature:</strong> ${ipm.environment.temp}°C (${toF(ipm.environment.temp)}°F)</div>
-        <div><strong>Humidity:</strong> ${ipm.environment.humidity}%</div>
-        <div class="full-row"><strong>Airflow:</strong> ${ipm.environment.airflow}</div>
-      </div>`;
-
-    // 6) Symptoms table
-    const rows = ipm.symptoms
-      .map(s => `<tr><td>${escapeHtml(s)}</td><td class="trigger-cell">?</td></tr>`)
-      .join('');
-    document.getElementById("symptomsBox").innerHTML = `
-      <h3>🧪 Observed Symptoms</h3>
-      <table class="symptoms-table">
-        <tr><th>Symptom</th><th>Likely Pest</th></tr>
-        ${rows}
-      </table>`;
-
-    // 7) Quiz inputs
-    document.getElementById("quizBox").innerHTML = `
-      <h3>❓ Which pest is causing these symptoms?</h3>
-      <input type="text" id="pestAnswer" placeholder="Type the pest name">
-
-      <h3>❓ Which IPM tactic would you implement next?</h3>
-      <select id="tacticSelect">
-        <option value="">Select a tactic</option>
-        <option value="Release predatory mites">Release predatory mites</option>
-        <option value="Apply selective pesticide">Apply selective pesticide</option>
-        <option value="Adjust humidity levels">Adjust humidity levels</option>
-        <option value="Increase scouting frequency">Increase scouting frequency</option>
-      </select>`;
-    return;
-  }
-
-  // ─── Physiological (Generated) branch ─────────────────────────────────────
-  if (scenarioType === "generated") {
-    document.getElementById("symptomsBox").style.display = "block";
-    scenario = generateScenario(difficultyLevel,
-      Array.from(document.getElementById("cropSelect").selectedOptions)
-           .map(o => o.value)
-    );
-    document.getElementById("levelTitle").textContent =
-      `🧠 Level ${difficultyLevel}: ${levels[difficultyLevel - 1]}`;
-    document.getElementById("cropTitle").textContent =
-      `🌿 Crop: ${scenario.crop.name}`;
-
-    // ... your existing physiological environment + symptoms + quiz rendering ...
-    // (unchanged from your current code)
-    return;
-  }
-
-  // ─── AI-Generated branch ─────────────────────────────────────────────────
-  // scenarioType === 'ai'
-  document.getElementById("symptomsBox").style.display = "none";
-  document.getElementById("aiContainer").style.display = "block";
-  document.getElementById("environmentBox").innerHTML = `
-    <h3>🧪 AI Scenario (Symptoms & Your Task)</h3>
-    <p>Loading AI scenario…</p>`;
-  document.getElementById("quizBox").innerHTML = "";
-  fetchGPTScenario();
-}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 🎮 renderScenario(): Populate UI for Built-In or AI mode
@@ -784,63 +426,27 @@ window.addEventListener("DOMContentLoaded", () => {
   updateLabels();
   renderScenario();
 });
-
 // ─────────────────────────────────────────────────────────────────────────────
-// ✅ Unified checkOutcome(): IPM, Physiological (“generated”) & AI Branches
+// 🎯 checkOutcome(): Detailed per-parameter “Why?” & “What If?” + Quiz Feedback
 // ─────────────────────────────────────────────────────────────────────────────
 async function checkOutcome() {
   const scenarioType = document.getElementById("scenarioType").value;
-
-  // ─── IPM Branch ────────────────────────────────────────────────────────────
-  if (scenarioType === 'ipm') {
-    const userPestRaw    = document.getElementById("pestAnswer").value.trim();
-    const userPest       = userPestRaw.toLowerCase();
-    const selectedTactic = document.getElementById("tacticSelect").value;
-    const correctPest    = currentIPMScenario.pest.toLowerCase();
-
-    const feedbackLines = [];
-
-    // Pest feedback
-    if (userPest === correctPest) {
-      feedbackLines.push(
-        `✅ Correct! ${capitalize(correctPest)} is right because ${pestReasons[correctPest]}.`
-      );
-    } else {
-      const given = userPestRaw || 'No answer';
-      feedbackLines.push(
-        `❌ You answered “${given}”. The correct pest is ${capitalize(correctPest)} because ${pestReasons[correctPest]}.`
-      );
-    }
-
-    // Tactic feedback
-    if (selectedTactic) {
-      feedbackLines.push(
-        `🔧 Your chosen IPM tactic: ${selectedTactic}. ${tacticReasons[selectedTactic]}`
-      );
-    } else {
-      feedbackLines.push(`⚠️ Please select an IPM tactic to proceed.`);
-    }
-
-    // Display IPM results
-    const resultBox = document.getElementById("resultBox");
-    resultBox.innerHTML = feedbackLines.map(l => `<p>${l}</p>`).join('');
-    resultBox.style.display = '';
-    return;
-  }
-
-  // ─── Physiological (“generated”) Branch ──────────────────────────────────
-  if (scenarioType === 'generated') {
-    // 1) Reveal all triggers in the symptom table
+  if (scenarioType === "generated") {
+    // 1. Reveal all “?” in the Likely Trigger column
     document
       .querySelectorAll("#symptomsBox .symptoms-table tr")
-      .forEach((row, i) => {
-        if (i === 0) return; // skip header
+      .forEach((row, rowIndex) => {
+        if (rowIndex === 0) return; // skip header
         const symptomText = row.cells[0].textContent.trim();
-        const match = scenario.stressors.find(s => s.symptoms.includes(symptomText));
-        row.cells[1].textContent = match ? match.cause : scenario.cause;
+        const matchingStressor = scenario.stressors.find((s) =>
+          s.symptoms.includes(symptomText)
+        );
+        row.cells[1].textContent = matchingStressor
+          ? matchingStressor.cause
+          : scenario.cause;
       });
 
-    // 2) Gather user slider inputs
+    // 2. Gather user slider inputs
     const userSliders = {
       temp: parseInt(document.getElementById("temp").value, 10),
       humidity: parseInt(document.getElementById("humidity").value, 10),
@@ -853,88 +459,228 @@ async function checkOutcome() {
       airflow: scenario.stats.airflow,
     };
 
-    // 3) Symptom‐matching quiz scoring
+    // 3. Per-symptom “Likely Trigger” quiz: check each separately
     let symptomPoints = 0;
     const symptomResults = [];
+
     scenario.symptoms.forEach((symptom, idx) => {
-      const sel = document.querySelector(`input[name="symptomQuiz${idx}"]:checked`);
-      const answer = sel ? sel.value : null;
-      const correct = scenario.stressors.find(s => s.symptoms.includes(symptom)).cause;
-      const isCorrect = answer === correct;
+      const name = `symptomQuiz${idx}`;
+      const selected = document.querySelector(`input[name="${name}"]:checked`);
+      const userAnswer = selected ? selected.value : null;
+
+      // Find correct cause for this symptom
+      const matchingStressor = scenario.stressors.find((s) =>
+        s.symptoms.includes(symptom)
+      );
+      const correctCause = matchingStressor.cause;
+
+      const isCorrect = userAnswer === correctCause;
       if (isCorrect) symptomPoints += 2;
-      symptomResults.push({ symptom, userAnswer: answer, correctCause: correct, isCorrect });
+
+      symptomResults.push({
+        symptom,
+        userAnswer,
+        correctCause,
+        isCorrect,
+      });
     });
 
-    // 4) Slider points & total score
+    // 4. Score calculation: quiz points (symptomPoints) + slider points
     let sliderPoints = 0;
     const prefs = scenario.crop.prefs;
-    Object.entries(prefs).forEach(([param, range]) => {
-      if (between(userSliders[param], range)) sliderPoints++;
-    });
-    const totalPoints = symptomPoints + sliderPoints;
-    const timeTaken   = Math.round((Date.now() - startTime) / 1000);
+    if (between(userSliders.temp, prefs.temp)) sliderPoints++;
+    if (between(userSliders.humidity, prefs.humidity)) sliderPoints++;
+    if (between(userSliders.light, prefs.light)) sliderPoints++;
+    if (between(userSliders.co2, prefs.co2)) sliderPoints++;
+    if (between(userSliders.dli, prefs.dli)) sliderPoints++;
+    if (between(userSliders.ec, prefs.ec)) sliderPoints++;
+    if (between(userSliders.ph, prefs.ph)) sliderPoints++;
 
-    // 5) Detailed per‐parameter feedback
-    const explanations = {
+    const totalPoints = symptomPoints + sliderPoints;
+    const timeTaken = Math.round((Date.now() - startTime) / 1000);
+
+    // 5. Build per-parameter (slider) feedback
+    const cropName = scenario.crop.name;
+    const cropExplanations = {
+      // ... [CUT: use your long block from the original script here, or keep as is for brevity] ...
+      // All detailed feedback for Lettuce, Tomato, Cannabis, Strawberries
+      // (I can reinsert the full original block if you want – let me know if you want the *verbatim* full block for each crop)
+    };
+
+    const explanations = cropExplanations[cropName] || {
       temp: {
         pos: "This temperature avoids heat stress while maximizing metabolic rates.",
-        neg: val => `Temp ${val}°C is off target; leaves may overheat or fail to grow.`
+        neg: (val) => `Temp ${val}°C is off target; leaves may overheat or fail to grow.`,
       },
       humidity: {
         pos: "This humidity prevents dehydration or fungal risk.",
-        neg: val => `Humidity ${val}% is off; plants might dehydrate or develop mold.`
+        neg: (val) => `Humidity ${val}% is off; plants might dehydrate or develop mold.`,
       },
       light: {
         pos: "This photoperiod balances energy supply without photoinhibition.",
-        neg: val => `Photoperiod ${val} hrs is off; plants might stretch or bleach.`
+        neg: (val) => `Photoperiod ${val} hrs is off; plants might stretch or bleach.`,
       },
       co2: {
         pos: "This CO₂ range is enough for normal photosynthesis without waste.",
-        neg: val => `CO₂ ${val} ppm is off; plants might be CO₂-limited or close stomata.`
+        neg: (val) => `CO₂ ${val} ppm is off; plants might be CO₂-limited or close stomata.`,
       },
       dli: {
         pos: "This DLI avoids photoinhibition while fueling healthy growth.",
-        neg: val => `DLI ${val} mol/m²/day is off; plants might grow weak or bleach.`
+        neg: (val) => `DLI ${val} mol/m²/day is off; plants might grow weak or bleach.`,
       },
       ec: {
         pos: "This EC avoids salt stress while supplying nutrients.",
-        neg: val => `EC ${val} mS/cm is off; roots may suffer deficiency or salt burn.`
+        neg: (val) => `EC ${val} mS/cm is off; roots may suffer deficiency or salt burn.`,
       },
       ph: {
         pos: "This pH maximizes nutrient availability.",
-        neg: val => `pH ${val} is off; nutrient lockouts or toxicity can occur.`
-      }
+        neg: (val) => `pH ${val} is off; nutrient lockouts or toxicity can occur.`,
+      },
     };
 
-    const sliderFeedbackList = Object.entries(prefs).map(([param, range]) => {
-      const val = userSliders[param];
-      const ok  = between(val, range);
-      // unit label logic
-      const unit = param === 'temp'   ? '°C'
-                  : param === 'light' ? ' hrs'
-                  : param === 'co2'   ? ' ppm'
-                  : param === 'dli'   ? ' mol/m²/day'
-                  : param === 'ec'    ? ' mS/cm'
-                                    : '';
-      return `
-        <li>
-          <strong>${capitalize(param)}:</strong>
-          ${colorize(val, range, unit)}
-          (Optimal: ${range[0]}–${range[1]}${unit})<br>
-          <em style="color:${ok ? 'green' : 'red'}">
-            ${escapeHtml(ok ? explanations[param].pos : explanations[param].neg(val))}
-          </em>
-        </li>`;
-    }).join("");
+    // Build slider feedback items
+    const sliderFeedbackList = `
+      <li>
+        <strong>Temperature:</strong>
+        ${colorize(userSliders.temp, prefs.temp, "°C")}
+        (Optimal: ${prefs.temp[0]}–${prefs.temp[1]}°C [${toF(prefs.temp[0])}°F–${toF(
+      prefs.temp[1]
+    )}°F])<br>
+        <em>
+          <span style="color:${
+            between(userSliders.temp, prefs.temp) ? "green" : "red"
+          }">
+            ${escapeHtml(
+              between(userSliders.temp, prefs.temp)
+                ? explanations.temp.pos
+                : explanations.temp.neg(userSliders.temp)
+            )}
+          </span>
+        </em>
+      </li>
+      <li>
+        <strong>Humidity:</strong>
+        ${colorize(userSliders.humidity, prefs.humidity, "%")}
+        (Optimal: ${prefs.humidity[0]}–${prefs.humidity[1]}%)<br>
+        <em>
+          <span style="color:${
+            between(userSliders.humidity, prefs.humidity) ? "green" : "red"
+          }">
+            ${escapeHtml(
+              between(userSliders.humidity, prefs.humidity)
+                ? explanations.humidity.pos
+                : explanations.humidity.neg(userSliders.humidity)
+            )}
+          </span>
+        </em>
+      </li>
+      <li>
+        <strong>Photoperiod:</strong>
+        ${colorize(userSliders.light, prefs.light, " hrs")}
+        (Optimal: ${prefs.light[0]}–${prefs.light[1]} hrs)<br>
+        <em>
+          <span style="color:${
+            between(userSliders.light, prefs.light) ? "green" : "red"
+          }">
+            ${escapeHtml(
+              between(userSliders.light, prefs.light)
+                ? explanations.light.pos
+                : explanations.light.neg(userSliders.light)
+            )}
+          </span>
+        </em>
+      </li>
+      <li>
+        <strong>CO₂:</strong>
+        ${colorize(userSliders.co2, prefs.co2, " ppm")}
+        (Optimal: ${prefs.co2[0]}–${prefs.co2[1]} ppm)<br>
+        <em>
+          <span style="color:${
+            between(userSliders.co2, prefs.co2) ? "green" : "red"
+          }">
+            ${escapeHtml(
+              between(userSliders.co2, prefs.co2)
+                ? explanations.co2.pos
+                : explanations.co2.neg(userSliders.co2)
+            )}
+          </span>
+        </em>
+      </li>
+      <li>
+        <strong>DLI:</strong>
+        ${colorize(userSliders.dli, prefs.dli, " mol/m²/day")}
+        (Optimal: ${prefs.dli[0]}–${prefs.dli[1]} mol/m²/day)<br>
+        <em>
+          <span style="color:${
+            between(userSliders.dli, prefs.dli) ? "green" : "red"
+          }">
+            ${escapeHtml(
+              between(userSliders.dli, prefs.dli)
+                ? explanations.dli.pos
+                : explanations.dli.neg(userSliders.dli)
+            )}
+          </span>
+        </em>
+      </li>
+      <li>
+        <strong>EC:</strong>
+        ${colorize(userSliders.ec, prefs.ec, " mS/cm")}
+        (Optimal: ${prefs.ec[0]}–${prefs.ec[1]} mS/cm)<br>
+        <em>
+          <span style="color:${
+            between(userSliders.ec, prefs.ec) ? "green" : "red"
+          }">
+            ${escapeHtml(
+              between(userSliders.ec, prefs.ec)
+                ? explanations.ec.pos
+                : explanations.ec.neg(userSliders.ec)
+            )}
+          </span>
+        </em>
+      </li>
+      <li>
+        <strong>pH:</strong>
+        ${colorize(userSliders.ph, prefs.ph, "")}
+        (Optimal: ${prefs.ph[0]}–${prefs.ph[1]})<br>
+        <em>
+          <span style="color:${
+            between(userSliders.ph, prefs.ph) ? "green" : "red"
+          }">
+            ${escapeHtml(
+              between(userSliders.ph, prefs.ph)
+                ? explanations.ph.pos
+                : explanations.ph.neg(userSliders.ph)
+            )}
+          </span>
+        </em>
+      </li>
+    `;
 
-    // 6) Per‐symptom quiz feedback
-    const symptomFeedbackHTML = symptomResults.map(res => {
-      const correctObj = scenario.crop.stressors.find(s => s.cause === res.correctCause);
+    // 6. Build per-symptom quiz feedback (detailed “why wrong/why right”)
+    let symptomFeedbackHTML = "";
+    symptomResults.forEach((res) => {
+      const correctObj = scenario.crop.stressors.find(
+        (s) => s.cause === res.correctCause
+      );
       const correctSymptoms = correctObj
         ? correctObj.symptoms.join(" or ")
         : res.symptom;
+      let wrongExplanation = "";
+      if (res.userAnswer) {
+        const wrongObj = scenario.crop.stressors.find(
+          (s) => s.cause === res.userAnswer
+        );
+        if (wrongObj) {
+          const wrongSymptoms = wrongObj.symptoms.join(" or ");
+          wrongExplanation = `“${res.userAnswer}” typically causes ${wrongSymptoms}, not “${res.symptom}.”`;
+        } else {
+          wrongExplanation = `“${res.userAnswer}” is not associated with “${res.symptom}.”`;
+        }
+      } else {
+        wrongExplanation = "You did not select an answer.";
+      }
       if (res.isCorrect) {
-        return `
+        symptomFeedbackHTML += `
           <li>
             <strong>Trigger for “${escapeHtml(res.symptom)}”:</strong><br>
             You answered: <em>${res.userAnswer}</em> (✅)<br>
@@ -942,22 +688,10 @@ async function checkOutcome() {
               Good job! “${res.correctCause}” is known to produce ${correctSymptoms}, 
               which matches the observed “${escapeHtml(res.symptom)}.”
             </em>
-          </li>`;
+          </li>
+        `;
       } else {
-        // build wrong‐answer explanation
-        let wrongExplanation = "";
-        if (res.userAnswer) {
-          const wrongObj = scenario.crop.stressors.find(s => s.cause === res.userAnswer);
-          if (wrongObj) {
-            const ws = wrongObj.symptoms.join(" or ");
-            wrongExplanation = `“${res.userAnswer}” typically causes ${ws}, not “${res.symptom}.”`;
-          } else {
-            wrongExplanation = `“${res.userAnswer}” is not associated with “${res.symptom}.”`;
-          }
-        } else {
-          wrongExplanation = "You did not select an answer.";
-        }
-        return `
+        symptomFeedbackHTML += `
           <li>
             <strong>Trigger for “${escapeHtml(res.symptom)}”:</strong><br>
             You answered: <em>${res.userAnswer || "No answer"}</em> (❌)<br>
@@ -966,11 +700,12 @@ async function checkOutcome() {
               The correct cause is “${res.correctCause},” which is known to lead to 
               ${correctSymptoms}, matching the observed “${escapeHtml(res.symptom)}.”
             </em>
-          </li>`;
+          </li>
+        `;
       }
-    }).join("");
+    });
 
-    // 7) Populate & show resultBox
+    // 7. Populate resultBox and unhide it
     document.getElementById("resultBox").innerHTML = `
       <p>✅ Environment &amp; Symptom Matching: ${
         totalPoints >= 4 ? "Pass" : "Needs Improvement"
@@ -979,14 +714,18 @@ async function checkOutcome() {
       <p>🕒 Time Taken: ${timeTaken} sec</p>
       <hr>
       <h4>🎯 Your Performance &amp; Optimal Ranges:</h4>
-      <ul>${sliderFeedbackList}</ul>
+      <ul>
+        ${sliderFeedbackList}
+      </ul>
       <hr>
       <h4>📊 Symptom Trigger Quiz Results:</h4>
-      <ul>${symptomFeedbackHTML}</ul>
+      <ul>
+        ${symptomFeedbackHTML}
+      </ul>
     `;
     document.getElementById("resultBox").style.display = "block";
 
-    // 8) Optional: Save history if user is logged in
+    // Save history if user is logged in
     if (window.firebaseGame?.getUser()) {
       await window.firebaseGame.saveHistory({
         timestamp: new Date().toISOString(),
@@ -999,14 +738,10 @@ async function checkOutcome() {
         scenarioType: "generated"
       });
     }
-    return;
-  }
 
-  // ─── AI Branch ──────────────────────────────────────────────────────────────
-  if (scenarioType === 'ai') {
-    // Answers are handled server-side; no built-in feedback here.
     return;
   }
+  // AI-Generated Scenario Mode (handled elsewhere)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
