@@ -43,7 +43,7 @@ const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 // ─────────────────────────────
-// 💾 DOM References
+// 💾 DOM References - UPDATED FOR NEW STRUCTURE
 // ─────────────────────────────
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
@@ -52,6 +52,10 @@ const signInBtn = document.getElementById("signInBtn");
 const googleLoginBtn = document.getElementById("googleLoginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const welcomeSpan = document.getElementById("welcome");
+
+// NEW: Auth state containers
+const authLoggedOut = document.getElementById("authLoggedOut");
+const authLoggedIn = document.getElementById("authLoggedIn");
 
 let signUpMode = false;
 
@@ -62,23 +66,65 @@ let currentUser = null;
 let points = 0;
 
 // ─────────────────────────────
-// 🔁 Auth Listener
+// 🎨 Helper Functions for Auth State
+// ─────────────────────────────
+function showLoggedInState(user) {
+  const handle = user.email?.split("@")[0] || "User";
+  
+  // Show logged-in container, hide logged-out container
+  if (authLoggedOut) authLoggedOut.style.display = "none";
+  if (authLoggedIn) authLoggedIn.style.display = "flex";
+  
+  // Update welcome text
+  if (welcomeSpan) {
+    welcomeSpan.textContent = `Welcome, ${handle}`;
+    welcomeSpan.style.display = "inline-block";
+  }
+  
+  // Show logout button
+  if (logoutBtn) logoutBtn.style.display = "inline-block";
+  
+  // Legacy support: Hide individual elements if they exist
+  [emailInput, passwordInput, signUpBtn, signInBtn, googleLoginBtn].forEach(el => {
+    if (el) el.style.display = "none";
+  });
+  
+  // Reset sign up mode
+  signUpMode = false;
+  if (signUpBtn) signUpBtn.textContent = "Sign Up";
+}
+
+function showLoggedOutState() {
+  // Hide logged-in container, show logged-out container
+  if (authLoggedOut) authLoggedOut.style.display = "flex";
+  if (authLoggedIn) authLoggedIn.style.display = "none";
+  
+  // Clear welcome text
+  if (welcomeSpan) {
+    welcomeSpan.textContent = "";
+    welcomeSpan.style.display = "none";
+  }
+  
+  // Hide logout button
+  if (logoutBtn) logoutBtn.style.display = "none";
+  
+  // Legacy support: Show individual elements if they exist
+  [emailInput, passwordInput, signUpBtn, signInBtn, googleLoginBtn].forEach(el => {
+    if (el) el.style.display = "inline-block";
+  });
+  
+  // Reset sign up mode
+  signUpMode = false;
+  if (signUpBtn) signUpBtn.textContent = "Sign Up";
+}
+
+// ─────────────────────────────
+// 🔁 Auth Listener - UPDATED
 // ─────────────────────────────
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
-    const handle = user.email?.split("@")[0] || "User";
-    welcomeSpan.textContent = `Welcome, ${handle}`;
-    welcomeSpan.style.display = "inline-block";
-
-    logoutBtn.style.display = "inline-block";
-    emailInput.style.display = "none";
-    passwordInput.style.display = "none";
-    signUpBtn.style.display = "none";
-    signInBtn.style.display = "none";
-    googleLoginBtn.style.display = "none";
-    signUpMode = false;
-    signUpBtn.textContent = "Sign Up";
+    showLoggedInState(user);
 
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
@@ -113,31 +159,20 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     currentUser = null;
     points = 0;
-    welcomeSpan.textContent = "";
-    welcomeSpan.style.display = "none";
-    logoutBtn.style.display = "none";
-
-    emailInput.style.display = "inline-block";
-    passwordInput.style.display = "inline-block";
-    signUpBtn.style.display = "inline-block";
-    signInBtn.style.display = "inline-block";
-    googleLoginBtn.style.display = "inline-block";
-    signUpMode = false;
-    signUpBtn.textContent = "Sign Up";
-
+    showLoggedOutState();
     window.firebaseGame = null;
   }
 });
 
 // ─────────────────────────────
-// 🔐 Auth Actions
+// 🔐 Auth Actions - SAME AS BEFORE
 // ─────────────────────────────
-window.startSignUp = async () => {
+window.signUp = async () => {
   if (!signUpMode) {
     signUpMode = true;
-    signInBtn.style.display = "none";
-    googleLoginBtn.style.display = "none";
-    signUpBtn.textContent = "Create Account";
+    if (signInBtn) signInBtn.style.display = "none";
+    if (googleLoginBtn) googleLoginBtn.style.display = "none";
+    if (signUpBtn) signUpBtn.textContent = "Create Account";
     return;
   }
   try {
@@ -170,7 +205,7 @@ window.googleLogin = async () => {
 window.logout = async () => {
   try {
     await signOut(auth);
-    location.reload();
+    // Don't reload page, let the auth state change handle UI updates
   } catch (err) {
     console.error("Logout Error:", err.message);
   }
