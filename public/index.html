@@ -2,37 +2,319 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Cultivatr: Precision CEA Consulting &amp; Training</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>GrowiQ: Precision CEA Training</title>
     <link rel="stylesheet" href="style.css" />
+
+    <style>
+      /* ─── Basic Styling ─── */
+      body {
+        font-family: 'Lunera', Arial, sans-serif;
+        margin: 1rem;
+        line-height: 1.4;
+        position: relative;
+      }
+      h1 {
+        font-family: 'Elounda', Georgia, serif;
+        font-style: italic;
+        margin-bottom: 0.5rem;
+      }
+      .section-container {
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background: #fafafa;
+      }
+      .symptoms-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.5rem;
+      }
+      .symptoms-table th,
+      .symptoms-table td {
+        border: 1px solid #999;
+        padding: 0.4rem 0.6rem;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+      .trigger-cell {
+        text-align: center;
+        font-style: italic;
+        color: #555;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+      label {
+        cursor: pointer;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+      input[type="range"] {
+        width: 100%;
+        margin: 0.2rem 0;
+      }
+      .slider-label {
+        margin-top: 0.6rem;
+        font-weight: bold;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+      .slider-value {
+        margin-left: 0.4rem;
+        font-weight: normal;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+      button {
+        margin-right: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid #666;
+        background: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'Lunera', Arial, sans-serif;
+        font-weight: 600;
+      }
+      button:hover {
+        background: #eee;
+      }
+      .footer-buttons {
+        margin-top: 1rem;
+      }
+      .footer-buttons button {
+        background: #2e7d32;
+        color: #fff;
+        border: none;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+      .footer-buttons button:hover {
+        background: #276729;
+      }
+      textarea {
+        width: 100%;
+        height: 6rem;
+        resize: vertical;
+        padding: 0.5rem;
+        border: 1px solid #999;
+        border-radius: 4px;
+        font-family: 'Lunera', Arial, sans-serif;
+        margin-top: 0.6rem;
+      }
+      .error {
+        color: red;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+
+      /* ─── AUTH PANEL: pinned to top-right ─── */
+      #authBox {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0.5rem 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+      #authBox input,
+      #authBox button {
+        display: inline-block;
+        margin: 0.2rem 0.2rem 0.2rem 0;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+      #authBox #welcome {
+        display: inline-block;
+        margin-left: 0.8rem;
+        font-weight: bold;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+
+      /* ─── RESPONSIVE ENVIRONMENT LAYOUT ─── */
+      .environment-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .environment-container {
+        background: #fafafa;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 0.8rem;
+        flex: 1;
+      }
+      
+      /* Desktop/Landscape: Side by side */
+      @media (min-width: 768px) {
+        .environment-wrapper {
+          flex-direction: row;
+          align-items: flex-start;
+        }
+        
+        .environment-container {
+          min-height: 400px;
+        }
+      }
+      
+      /* Large screens: More spacing */
+      @media (min-width: 1200px) {
+        .environment-wrapper {
+          gap: 2rem;
+        }
+        
+        .environment-container {
+          padding: 1.2rem;
+        }
+      }
+      
+      /* Mobile: Stacked (default) */
+      @media (max-width: 767px) {
+        .environment-wrapper {
+          gap: 1rem;
+        }
+        
+        .environment-container {
+          padding: 0.6rem;
+        }
+      }
+      
+      /* Environment display grid styling */
+      .env-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+      
+      .env-grid .full-row {
+        grid-column: 1 / -1;
+      }
+      
+      /* Responsive adjustments for env-grid */
+      @media (min-width: 768px) and (max-width: 1199px) {
+        .env-grid {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+        }
+      }
+
+      /* ─── Make sure ALL elements use Lunera ─── */
+      select, option {
+        font-family: 'Lunera', Arial, sans-serif;
+        font-weight: 500;
+      }
+      h2, h3, h4, h5, h6 {
+        font-family: 'Lunera', Arial, sans-serif;
+        font-weight: 700;
+      }
+      input {
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+      /* ─── SLIDER IMPROVEMENTS (ADD THIS TO YOUR EXISTING STYLES) ─── */
+      .slider-container {
+        margin-bottom: 1.2rem;
+      }
+
+      .slider-container:last-child {
+        margin-bottom: 0;
+      }
+
+      .slider-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.4rem;
+        font-family: 'Lunera', Arial, sans-serif;
+      }
+
+      .slider-label {
+        font-weight: bold;
+        color: #333;
+        font-size: 0.9rem;
+      }
+
+      .slider-value {
+        font-weight: 600;
+        color: #2e7d32;
+        font-size: 0.9rem;
+        background: rgba(46, 125, 50, 0.1);
+        padding: 0.2rem 0.5rem;
+        border-radius: 12px;
+        min-width: 60px;
+        text-align: center;
+      }
+
+      /* Enhanced slider styling */
+      input[type="range"] {
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        background: #ddd;
+        outline: none;
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #2e7d32;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
+
+      input[type="range"]::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #2e7d32;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
+
+      @media (min-width: 768px) {
+        .slider-container {
+          margin-bottom: 1.5rem;
+        }
+        
+        .slider-header {
+          margin-bottom: 0.6rem;
+        }
+        
+        .slider-label, .slider-value {
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .slider-container {
+          margin-bottom: 1rem;
+        }
+        
+        .slider-label, .slider-value {
+          font-size: 0.85rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    <!-- App Header -->
-    <h1>Cultivatr: Precision CEA Consulting &amp; Training</h1>
-
-    <!-- Authentication Panel -->
-    <div id="authBox">
-      <input type="email" id="email" placeholder="Email" />
-      <input type="password" id="password" placeholder="Password" />
-      <button id="signUpBtn" onclick="startSignUp()">Sign Up</button>
-      <button id="signInBtn" onclick="signIn()">Log In</button>
-      <button id="googleLoginBtn" onclick="googleLogin()">Sign in with Google</button>
-      <button onclick="logout()" id="logoutBtn" style="display:none;">Log Out</button>
-      <span id="welcome" style="display:none;"></span>
-    </div>
-
-    <!-- Controls Bar -->
-    <div id="controlsBar" class="controls-bar">
+<!-- ─── Optimized Header Layout with Auth Box ─── -->
+<header class="app-header">
+  <!-- Left side: Title -->
+  <div class="app-title">
+    <h1>GROWIQ</h1>
+    <p class="subtitle">Precision CEA Training & Consulting</p>
+  </div>
+  
+  <!-- Right side: Controls + Auth -->
+  <div class="header-controls">
+    <!-- Main Controls - THIS SECTION NEEDS THE WRAPPER -->
+    <div class="main-controls">
       <div class="control-group">
-        <label for="scenarioType"><strong>Scenario Type:</strong></label>
-        <select id="scenarioType">
-          <option value="generated">🌱 Physiological Scenarios</option>
-          <option value="ipm">🐞 IPM Scenarios</option>
-          <option value="ai">🤖 AI-Generated Scenarios</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <label for="levelSelect"><strong>Select Difficulty:</strong></label>
+        <label for="levelSelect">Select Difficulty</label>
         <select id="levelSelect">
           <option value="1">🌱 Seedling Scout</option>
           <option value="2">🌿 Vegetative Voyager</option>
@@ -42,82 +324,170 @@
           <option value="6">🧠 Greenhouse Grandmaster</option>
         </select>
       </div>
+      
       <div class="control-group">
-        <label for="cropSelect"><strong>Select Crop(s):</strong></label>
-        <select id="cropSelect" multiple></select>
-        <span class="multi-tip">(Hold Ctrl/Cmd to select multiple)</span>
+        <label for="scenarioType">Scenario Type</label>
+        <select id="scenarioType">
+          <option value="physiological">🌱 Physiological</option>
+          <option value="ipm">🐛 IPM</option>
+          <option value="ai">🤖 AI Generated</option>
+        </select>
+      </div>
+      
+      <div class="control-group" style="position: relative;">
+        <label>&nbsp;</label>
+        <button id="cropToggle" class="crop-toggle">🌱 Select Crops</button>
+        <div id="cropSelectContainer" class="crop-dropdown-container" style="display: none;">
+          <label for="cropSelect"><strong>Select Crop:</strong></label>
+          <select id="cropSelect" multiple>
+            <option value="">Choose a crop...</option>
+          </select>
+        </div>
       </div>
     </div>
+    
+    <!-- Auth Container -->
+    <div class="header-auth">
+      <div id="authBox" class="auth-container">
+        <input type="email" id="email" placeholder="Email" />
+        <input type="password" id="password" placeholder="Password" />
+        <button id="signUpBtn" onclick="signUp()">Sign Up</button>
+        <button id="signInBtn" onclick="signIn()">Log In</button>
+        <button id="googleLoginBtn" onclick="googleLogin()">Google Sign In</button>
+        <button onclick="logout()" id="logoutBtn" style="display:none;">Log Out</button>
+        <span id="welcome" style="display:none;"></span>
+      </div>
+    </div>
+  </div>
+</header>
 
-    <!-- Level & Symptoms -->
+    <!-- ─── Level Header ─── -->
     <h2 id="levelTitle">🧠 Level 1: Seedling Scout</h2>
+
+    <!-- ─── Observed Symptoms (directly under Level) ─── -->
     <div id="symptomsBox" class="section-container">
       <h3>🧪 Observed Symptoms</h3>
+      <!-- Populated by script.js -->
     </div>
 
-    <!-- Crop & Environment -->
+    <!-- ─── Crop Header (below Symptoms) ─── -->
     <h2 id="cropTitle">🌿 Crop: Lettuce</h2>
-    <div class="env-slider-container">
-      <div id="environmentBox" class="section-container">
+
+    <!-- ─── RESPONSIVE ENVIRONMENT CONTAINERS ─── -->
+    <div class="environment-wrapper">
+      <!-- Simulated Environment -->
+      <div id="environmentBox" class="environment-container">
         <h3>🌡️ Simulated Environment</h3>
+        <!-- Populated by script.js -->
       </div>
-      <div id="sliderBox" class="section-container">
+
+      <!-- Adjust Environment Sliders -->
+      <div id="sliderBox" class="environment-container">
         <h3>🎛️ Adjust Environment:</h3>
 
-        <label for="temp">
-          <span>🌡️ Temperature: <span id="tempVal">25°C (77°F)</span></span>
-        </label>
-        <input type="range" id="temp" min="10" max="40" value="25"/>
-
-        <label for="humidity">
-          <span>💧 Humidity: <span id="humidityVal">60%</span></span>
-        </label>
-        <input type="range" id="humidity" min="20" max="100" value="60"/>
-
-        <label for="light">
-          <span>☀️ Photoperiod: <span id="lightVal">12 hrs</span></span>
-        </label>
-        <input type="range" id="light" min="6" max="20" value="12"/>
-
-        <label for="co2">
-          <span>🧪 CO₂: <span id="co2Val">400 ppm</span></span>
-        </label>
-        <input type="range" id="co2" min="300" max="1150" value="400"/>
-
-        <label for="dli">
-          <span>🔆 DLI (mol/m²/day): <span id="dliVal">20</span></span>
-        </label>
-        <input type="range" id="dli" min="0" max="45" value="20"/>
-
-        <label for="ec">
-          <span>💧 EC (mS/cm): <span id="ecVal">1.0</span></span>
-        </label>
-        <input type="range" id="ec" min="0.0" max="3.0" step="0.1" value="1.0"/>
-
-        <label for="ph">
-          <span>🌿 pH: <span id="phVal">6.0</span></span>
-        </label>
-        <input type="range" id="ph" min="4.0" max="8.0" step="0.1" value="6.0"/>
+    <!-- Temperature -->
+    <div class="slider-container">
+      <div class="slider-header">
+        <span class="slider-label">🌡️ Temperature:</span>
+        <span id="tempVal" class="slider-value">25°C (77°F)</span>
       </div>
+      <input type="range" id="temp" min="10" max="40" value="25" />
     </div>
 
-    <!-- Quiz / AI / Results / History / Footer -->
-    <div id="quizBox" class="section-container"></div>
-    <div id="aiContainer" class="section-container" style="display:none;">
-      <textarea
-        id="aiRecommendation"
-        placeholder="✍️ For AI-Generated Scenarios, write your diagnosis & solutions here..."
-        aria-label="Your recommendation for AI scenario"
-      ></textarea>
-    </div>
-    <section id="resultBox" class="section-container" style="display:none;" aria-live="polite"></section>
-    <section id="historyBox" class="section-container" style="display:none;"></section>
-    <div class="footer-buttons">
-      <button onclick="checkOutcome()">Submit Scenario</button>
-      <button onclick="renderScenario()">Next Scenario</button>
-      <button onclick="loadHistory()">Show History</button>
+    <!-- Humidity -->
+    <div class="slider-container">
+      <div class="slider-header">
+        <span class="slider-label">💧 Humidity:</span>
+        <span id="humidityVal" class="slider-value">60%</span>
+      </div>
+      <input type="range" id="humidity" min="20" max="100" value="60" />
     </div>
 
+    <!-- Photoperiod -->
+    <div class="slider-container">
+      <div class="slider-header">
+        <span class="slider-label">☀️ Photoperiod:</span>
+        <span id="lightVal" class="slider-value">12 hrs</span>
+      </div>
+      <input type="range" id="light" min="6" max="20" value="12" />
+    </div>
+
+    <!-- CO₂ -->
+    <div class="slider-container">
+      <div class="slider-header">
+        <span class="slider-label">🧪 CO₂:</span>
+        <span id="co2Val" class="slider-value">400 ppm</span>
+      </div>
+      <input type="range" id="co2" min="300" max="1150" value="400" />
+    </div>
+
+    <!-- DLI -->
+    <div class="slider-container">
+      <div class="slider-header">
+        <span class="slider-label">🔆 DLI (mol/m²/day):</span>
+        <span id="dliVal" class="slider-value">20</span>
+      </div>
+      <input type="range" id="dli" min="0" max="45" value="20" />
+    </div>
+
+    <!-- EC -->
+    <div class="slider-container">
+      <div class="slider-header">
+        <span class="slider-label">💧 EC (mS/cm):</span>
+        <span id="ecVal" class="slider-value">1.0</span>
+      </div>
+      <input type="range" id="ec" min="0.0" max="3.0" step="0.1" value="1.0" />
+    </div>
+
+    <!-- pH -->
+    <div class="slider-container">
+      <div class="slider-header">
+        <span class="slider-label">🌿 pH:</span>
+        <span id="phVal" class="slider-value">6.0</span>
+      </div>
+      <input type="range" id="ph" min="4.0" max="8.0" step="0.1" value="6.0" />
+    </div>
+  </div> <!-- Close #sliderBox -->
+</div>   <!-- Close .environment-wrapper -->
+ <!-- ─── Content Below Environment ─── -->
+    <div class="content-below-environment">
+      <!-- ─── Quiz Area ─── -->
+      <div id="quizBox" class="section-container">
+        <!-- Injected by script.js -->
+      </div>
+
+      <!-- ─── AI Recommendation (only visible in AI mode) ─── -->
+      <div id="aiContainer" class="section-container" style="display:none;">
+        <textarea
+          id="aiRecommendation"
+          placeholder="✍️ For AI-Generated Scenarios, write your diagnosis & solutions here..."
+          aria-label="Your recommendation for AI scenario"
+        ></textarea>
+      </div>
+
+      <!-- ─── Result & History Panels (initially hidden) ─── -->
+      <section
+        id="resultBox"
+        class="section-container"
+        aria-live="polite"
+        style="display:none;"
+      ></section>
+
+      <section
+        id="historyBox"
+        class="section-container"
+        style="display:none;"
+      ></section>
+
+      <!-- ─── Action Buttons ─── -->
+      <div class="footer-buttons">
+        <button onclick="checkOutcome();">Submit Scenario</button>
+        <button onclick="renderScenario();">Next Scenario</button>
+        <button onclick="loadHistory();">Show History</button>
+      </div>
+    </div> 
+    
+    <!-- ─── Firebase SDK & Main Logic ─── -->
     <script type="module" src="firebase.js"></script>
     <script src="script.js"></script>
   </body>
